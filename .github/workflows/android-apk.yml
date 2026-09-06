@@ -3,15 +3,20 @@ name: Build BEDENO TVET Android APK
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - 'android/**'
+      - 'client/**'
+      - 'server/**'
       - '.github/workflows/android-apk.yml'
 
 jobs:
   build-apk:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -23,13 +28,14 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android SDK packages
-        run: sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+      - name: Install Android SDK
+        run: |
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build Debug APK
+      - name: Build APK
         working-directory: android
         run: gradle --no-daemon assembleDebug
 
