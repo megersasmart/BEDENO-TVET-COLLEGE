@@ -1,0 +1,1 @@
+{"name":"bedeno-tvet-server","version":"1.0.0","private":true,"type":"commonjs","scripts":{"start":"node server.js"},"dependencies":{"better-sqlite3":"^11.10.0","cors":"^2.8.5","express":"^5.1.0","jsonwebtoken":"^9.0.2","bcryptjs":"^3.0.2","qrcode":"^1.5.4"}}
