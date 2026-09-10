@@ -1,0 +1,9 @@
+{
+  "name":"BEDENO TVET COLLEGE Training Management System",
+  "short_name":"BEDENO TVET",
+  "start_url":"/",
+  "display":"standalone",
+  "background_color":"#f3f6f4",
+  "theme_color":"#087f3e",
+  "icons":[{"src":"/assets/bedeno-icon.jpg","sizes":"512x512","type":"image/jpeg","purpose":"any"}]
+}
