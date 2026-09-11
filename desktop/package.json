@@ -1,1 +1,21 @@
-
+{
+  "name": "bedeno-tvet-college-desktop",
+  "version": "1.0.0",
+  "description": "BEDENO TVET COLLEGE Training Management System",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.bedenotvet.college",
+    "productName": "BEDENO TVET COLLEGE",
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
