@@ -5,7 +5,7 @@
     <application
         android:theme="@style/AppTheme"
         android:label="BEDENO TVET COLLEGE"
-        android:icon=android:icon="@drawable/bedeno_college_logo"
+        android:icon=android:icon="@drawable/bedeno_logo"
         android:usesCleartextTraffic="true">
 
         <activity
