@@ -9,6 +9,44 @@
 <style>
 :root{--g:#087f3e;--g2:#055d2d;--bg:#f3f6f4;--text:#18221c;--muted:#66736b;--line:#dfe7e2;--card:#fff;--danger:#b42318;--warn:#9a6700}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:11px 15px;background:var(--g);color:#fff;font-weight:700}button:hover{background:var(--g2)}button.secondary{background:#e8efeb;color:var(--text)}button.danger{background:var(--danger)}.wrap{max-width:1280px;margin:auto;padding:18px}.login{max-width:620px;margin:7vh auto}.card{background:var(--card);border-radius:15px;padding:20px;margin-bottom:16px;box-shadow:0 2px 14px #0000000d;border:1px solid var(--line)}header{background:var(--g);color:#fff;padding:17px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}header h1{margin:0;font-size:23px}header small{opacity:.9}.status{padding:7px 10px;border-radius:20px;font-weight:700;background:#fff;color:var(--g)}.offline{background:#fff1c7;color:#765500}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tabs button.active{background:var(--g2)}.hidden{display:none!important}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}label{font-weight:700;font-size:14px}input,select,textarea{width:100%;border:1px solid #cfd9d3;border-radius:9px;padding:11px;background:#fff}textarea{min-height:90px}.stat{background:#eef8f1;border:1px solid #d7ecdd;border-radius:12px;padding:15px}.stat b{display:block;font-size:29px;margin-top:5px}.muted{color:var(--muted);font-size:13px}.msg{margin-top:10px;font-weight:700}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:720px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}th{background:#f6f9f7}.badge{display:inline-block;padding:5px 9px;border-radius:20px;font-size:12px;font-weight:700}.pass,.approved{background:#daf5e0;color:#176b2e}.fail,.rejected{background:#ffe1e1;color:#9d1c1c}.pending{background:#fff0bf;color:#775500}.info{background:#e4f0ff;color:#17518f}.feature{display:flex;flex-wrap:wrap;gap:8px}.feature span{background:#f0f4f1;padding:8px 10px;border-radius:9px}.photo-preview{width:110px;height:130px;border:1px solid #bbb;object-fit:cover;background:#f7f7f7}.searchrow{display:flex;gap:8px}.searchrow input{flex:1}.dangerText{color:var(--danger)}
+/* ===== BEDENO DASHBOARD DESIGN ===== */
+
+.dashboard-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, #087f3e, #055d2d);
+    color: white;
+}
+
+.dashboard-head h2 { margin: 0 0 6px; }
+.dashboard-head .muted { color: rgba(255,255,255,.85); margin: 0; }
+.dashboard-head .badge {
+    background: white; color: #087f3e; padding: 8px 14px;
+    border-radius: 20px; font-weight: 700; white-space: nowrap;
+}
+
+.dashboard-stats { margin-bottom: 20px; }
+.dashboard-stats .stat {
+    min-height: 105px; display: flex; flex-direction: column;
+    justify-content: center; transition: transform .2s, box-shadow .2s;
+}
+.dashboard-stats .stat:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,.10); }
+.dashboard-stats .stat span { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+.dashboard-stats .stat b { font-size: 30px; color: var(--g); }
+.feature button { min-height: 48px; margin: 5px; }
+
+@media (max-width: 600px) {
+    .dashboard-head { flex-direction: column; align-items: flex-start; }
+    .dashboard-head .badge { align-self: flex-start; }
+    .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
+    .dashboard-stats .stat { min-height: 95px; }
+    .dashboard-stats .stat b { font-size: 25px; }
+    .feature button { width: 100%; margin: 4px 0; }
+}
+
 /* Certificate based on the college form supplied by the user */
 .certificate-page{background:#fff;padding:15px}.certificate-sheet{position:relative;width:100%;max-width:1400px;margin:auto;aspect-ratio:1.4142;background:url('assets/certificate-form.jpg') center/100% 100% no-repeat;overflow:hidden}.cert-field{position:absolute;font-family:Arial,sans-serif;color:#111;font-weight:700}.cert-photo{position:absolute;left:82.0%;top:16.2%;width:10.6%;height:15.0%;object-fit:cover;border:1px solid #222;background:#fff}.cert-trainee{left:57.5%;top:35.7%;width:31%;font-size:1.65vw;color:#008aa7;background:rgba(255,255,255,.96);padding:2px 5px}.cert-profession{left:68.5%;top:42.5%;width:25%;font-size:1.35vw;background:rgba(255,255,255,.96);padding:2px 5px}.cert-level{left:69.5%;top:48.0%;width:23%;font-size:1.35vw;background:rgba(255,255,255,.96);padding:2px 5px}.cert-period{left:69.5%;top:53.3%;width:25%;font-size:1.15vw;background:rgba(255,255,255,.96);padding:2px 5px}.cert-id{left:12.0%;top:22.5%;width:20%;font-size:1vw}.cert-name-left{left:24%;top:35.0%;width:28%;font-size:1.35vw;color:#008aa7;background:rgba(255,255,255,.96);padding:2px 5px}.cert-prof-left{left:24%;top:42.0%;width:28%;font-size:1.2vw;background:rgba(255,255,255,.96);padding:2px 5px}.cert-score{left:70%;top:60.0%;width:18%;font-size:1.3vw}.cert-date{left:61%;top:69.5%;width:25%;font-size:1.1vw}.cert-checker{left:15%;top:69.0%;width:27%;font-size:1.1vw}.cert-status{left:43%;top:83%;width:15%;font-size:1vw;text-align:center}.print-actions{display:flex;gap:8px;justify-content:center;margin:15px auto;flex-wrap:wrap}
 @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
