@@ -44,7 +44,131 @@ function buildTabs(){tabs.innerHTML=(TAB_ACCESS[role]||[]).map(id=>`<button id="
 function show(id){if(!(TAB_ACCESS[role]||[]).includes(id))return;['dashboard','registration','scores','trainees','certificates','settings'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));const b=document.getElementById('tab_'+id);if(b)b.classList.add('active');if(id==='dashboard')loadDash();if(id==='registration')loadReg();if(id==='scores')loadScores();if(id==='trainees')loadTrainees();if(id==='certificates')loadCerts();if(id==='settings')loadSettings()}
 function updateNet(){const online=navigator.onLine;net.textContent=online?'ONLINE':'OFFLINE';net.className='status '+(online?'':'offline');if(online)syncOffline()}
 async function syncOffline(){if(!navigator.onLine||!queue.length||!token)return;for(const item of [...queue]){try{const d=await api('/sync/trainee',{method:'POST',body:JSON.stringify(item.data)});queue=queue.filter(x=>x.local_id!==item.local_id);localStorage.setItem('btc_queue',JSON.stringify(queue));if(window.regmsg)regmsg.textContent='Offline record synced successfully. Official ID: '+d.trainee.trainee_id}catch(e){}}}
-async function loadDash(){try{if(!navigator.onLine){dashboard.innerHTML='<div class="card"><h2>📴 Offline Mode</h2><p>Registration can continue offline. Saved records will sync automatically when internet returns.</p><div class="feature"><span>📴 Offline Registration</span><span>🔄 Auto Sync</span></div></div>';return}const d=await api('/dashboard');dashboard.innerHTML=`<div class="grid">${[['Trainees',d.trainees],['Active',d.active],['Completed',d.completed],['Pending',d.pending],['Approved',d.approved]].map(x=>`<div class="stat"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div><div class="card"><h2>Welcome — ${esc(ROLE_NAMES[role]||role)}</h2><p>Your dashboard is permission-controlled. Available functions are shown according to your role.</p><div class="feature"><span>👥 6 Login Roles</span><span>🆔 BTC-YYYY-0001</span><span>📴 Offline Registration</span><span>🔄 Auto Sync</span><span>🎓 Level 1–4</span><span>📝 Auto Grade</span><span>📜 Dean/College Approval</span><span>📥 Excel Export</span><span>🔐 Permissions</span><span>📱 Android/PWA</span><span>💻 Windows Browser/PWA</span></div></div>`}catch(e){dashboard.innerHTML='<div class="card dangerText">'+esc(e.message)+'</div>'}}
+async function loadDash(){
+    try {
+        if(!navigator.onLine){
+            dashboard.innerHTML = `
+                <div class="card">
+                    <h2>📴 Offline Mode</h2>
+                    <p>
+                        Registration can continue offline.
+                        Saved records will sync automatically when internet returns.
+                    </p>
+
+                    <div class="feature">
+                        <span>📴 Offline Registration</span>
+                        <span>🔄 Auto Sync</span>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        const d = await api('/dashboard');
+
+        dashboard.innerHTML = `
+            <div class="card dashboard-head">
+                <div>
+                    <h2>👋 Welcome, ${esc(username)}</h2>
+                    <p class="muted">
+                        BEDENO TVET COLLEGE Training Management System
+                    </p>
+                </div>
+
+                <span class="badge info">
+                    ${esc(ROLE_NAMES[role] || role)}
+                </span>
+            </div>
+
+            <div class="grid dashboard-stats">
+
+                <div class="stat">
+                    <span>👨‍🎓 Total Trainees</span>
+                    <b>${d.trainees}</b>
+                </div>
+
+                <div class="stat">
+                    <span>📚 Active Training</span>
+                    <b>${d.active}</b>
+                </div>
+
+                <div class="stat">
+                    <span>🎓 Completed</span>
+                    <b>${d.completed}</b>
+                </div>
+
+                <div class="stat">
+                    <span>⏳ Pending Certificates</span>
+                    <b>${d.pending}</b>
+                </div>
+
+                <div class="stat">
+                    <span>✅ Approved Certificates</span>
+                    <b>${d.approved}</b>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <h2>⚡ Quick Access</h2>
+
+                <div class="feature">
+
+                    <button onclick="show('registration')">
+                        🆔 Register Trainee
+                    </button>
+
+                    <button onclick="show('scores')">
+                        📝 Enter Result
+                    </button>
+
+                    <button onclick="show('trainees')">
+                        👥 Trainee List
+                    </button>
+
+                    <button onclick="show('certificates')">
+                        📜 Certificates
+                    </button>
+
+                    ${
+                        role === 'ADMIN'
+                        ? `
+                            <button onclick="show('settings')">
+                                ⚙️ System Settings
+                            </button>
+                        `
+                        : ''
+                    }
+
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🏫 BEDENO TVET COLLEGE</h2>
+
+                <p>
+                    Training, trainee registration, result management
+                    and certificate management system.
+                </p>
+
+                <div class="feature">
+                    <span>🎓 Level 1–4</span>
+                    <span>📝 Automatic Grade</span>
+                    <span>📜 Certificate Approval</span>
+                    <span>🔐 Role Permissions</span>
+                    <span>📱 Mobile Support</span>
+                    <span>📴 Offline Registration</span>
+                </div>
+            </div>
+        `;
+
+    } catch(e) {
+        dashboard.innerHTML =
+            '<div class="card dangerText">' +
+            esc(e.message) +
+            '</div>';
+    }
+}
 async function loadReg(){try{let ps,ts;if(navigator.onLine){[ps,ts]=await Promise.all([api('/professions'),api('/trainings')]);}else{ps=JSON.parse(localStorage.getItem('btc_professions')||'[]');ts=JSON.parse(localStorage.getItem('btc_trainings')||'[]');if(!ps.length||!ts.length)throw new Error('Offline registration is ready after one successful online login and data sync.');}trainingCache=ts;localStorage.setItem('btc_professions',JSON.stringify(ps));localStorage.setItem('btc_trainings',JSON.stringify(ts));registration.innerHTML=`<div class="card"><h2>🆔 Trainee Registration</h2><p class="muted">Trainee ID is generated automatically as BTC-YYYY-0001. If the internet is unavailable, registration is saved on this device and synced automatically later.</p><div class="two"><div class="field"><label>Full Name *</label><input id="rname"></div><div class="field"><label>Phone</label><input id="rphone" inputmode="tel"></div><div class="field"><label>Gender</label><select id="rgender"><option>Male</option><option>Female</option></select></div><div class="field"><label>Gosa Ogummaa / Profession *</label><select id="rprof" onchange="filterTrainings()">${ps.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')}</select></div><div class="field"><label>Training *</label><select id="rtraining"></select></div><div class="field"><label>Starting Level</label><select id="rlevel"><option>1</option><option>2</option><option>3</option><option>4</option></select></div><div class="field"><label>Training Start Date</label><input id="rstart" type="date"></div><div class="field"><label>Training End Date</label><input id="rend" type="date"></div><div class="field"><label>Trainee Photo</label><input id="rphoto" type="file" accept="image/*" onchange="previewPhoto()"><img id="photoPreview" class="photo-preview" alt="Photo preview"></div></div><button onclick="registerTrainee()">REGISTER TRAINEE</button><p id="regmsg" class="msg"></p></div>`;filterTrainings()}catch(e){registration.innerHTML='<div class="card dangerText">'+esc(e.message)+'</div>'}}
 function filterTrainings(){if(!window.rprof||!window.rtraining)return;const pid=+rprof.value;const rows=trainingCache.filter(t=>+t.profession_id===pid);rtraining.innerHTML=rows.length?rows.map(t=>`<option value="${t.id}">${esc(t.name)} (${t.levels} Levels)</option>`).join(''):'<option value="">No training available</option>';const t=trainingCache.find(x=>+x.id===+(rtraining.value));rlevel.innerHTML=Array.from({length:t?.levels||4},(_,i)=>`<option>${i+1}</option>`).join('')}
 function previewPhoto(){const f=rphoto.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>photoPreview.src=rd.result;rd.readAsDataURL(f)}
