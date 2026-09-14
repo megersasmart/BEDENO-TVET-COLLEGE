@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
         super.onCreate(b);
 
         web = new WebView(this);
-        web.setBackgroundColor(Color.WHITE);
+web.setBackgroundColor(Color.WHITE);
 
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
